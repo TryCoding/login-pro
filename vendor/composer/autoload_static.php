@@ -19,6 +19,10 @@ class ComposerStaticInit0002b95b186edae93deb751d13e9af87
         array (
             'Webmozart\\Assert\\' => 17,
         ),
+        'T' => 
+        array (
+            'Twilio\\' => 7,
+        ),
         'S' => 
         array (
             'Symfony\\Component\\OptionsResolver\\' => 34,
@@ -53,6 +57,10 @@ class ComposerStaticInit0002b95b186edae93deb751d13e9af87
         'Webmozart\\Assert\\' => 
         array (
             0 => __DIR__ . '/..' . '/webmozart/assert/src',
+        ),
+        'Twilio\\' => 
+        array (
+            0 => __DIR__ . '/..' . '/twilio/sdk/Twilio',
         ),
         'Symfony\\Component\\OptionsResolver\\' => 
         array (

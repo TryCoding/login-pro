@@ -1,5 +1,7 @@
 <?php if ( ! defined('BASEPATH')) exit('No direct script access allowed');
 		use Mailgun\Mailgun;
+		// Use the REST API Client to make requests to the Twilio REST API
+		use Twilio\Rest\Client;
 
 class Auth extends CI_Controller {
 
@@ -79,6 +81,26 @@ class Auth extends CI_Controller {
 		        'to'      => 'Dilla <dillaalmakhzumi@gmail.com>',
 		        'subject' => 'Hello Indigital',
 		        'text'    => 'Selamat! Anda telah terdaftar. Kunungi halaman ini untuk melanjutkan verifikasi -> LINK'));
+
+		// Required if your environment does not handle autoloading
+		require 'vendor/autoload.php';
+
+		// Your Account SID and Auth Token from twilio.com/console
+		$sid = 'ACcc91e1b0937153d82dc8f73c3baeb185';
+		$token = '183303a6f79d418ca9e0b9442d662ff3';
+		$client = new Client($sid, $token);
+
+		// Use the client to do fun stuff like send text messages!
+		$client->messages->create(
+		    // the number you'd like to send the message to
+		    "+6285727966471",
+		    array(
+		        // A Twilio phone number you purchased at twilio.com/console
+		        'from' => '+61488842834',
+		        // the body of the text message you'd like to send
+		        'body' => 'Hey Jenny! Good luck on the bar exam!'
+		    )
+		);
 
 		$this->load->view('notifikasi');
 	}
