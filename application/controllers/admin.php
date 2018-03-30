@@ -17,6 +17,14 @@ class Admin extends CI_Controller {
 	 * map to /index.php/admin/<method_name>
 	 * @see https://codeigniter.com/user_guide/general/urls.html
 	 */
+	  public function __construct()
+    {
+        parent::__construct();
+        $this->load->model('masterlogin_model', '', TRUE);
+        $this->load->helper(array('form', 'url'));        
+    }
+
+
   	public function index()
  	{
     	$cek = $this->session->userdata('logged_in'); $stts = $this->session->userdata('stts');
@@ -27,4 +35,30 @@ class Admin extends CI_Controller {
 		}
 		else { header('location:'.base_url().''); }
  	}
+
+	           
+		public function Duser() 
+	{
+
+	   $df = array( 1 => 'nama_user', 2 => 'email_user');	   
+	   $this->masterlogin_model->kabeh('tbuser',$df);
+
+       $fetch_data = $this->masterlogin_model->make_datatables_user();
+       $data = array();
+       foreach($fetch_data as $row)
+       {
+            $sub_array = array();
+            $sub_array[] = $row->nama_user;
+            $sub_array[] = $row->email_user;
+            $sub_array[] = $row->hp_user;            
+            $data[] = $sub_array;
+       }
+       $output = array(
+            "draw" =>intval($_POST["draw"]),
+            "recordsTotal"=>$this->masterlogin_model->get_all_data(),
+            "recordsFiltered"=>$this->masterlogin_model->get_filtered_data_user(),
+            "data"=>$data
+       );
+       echo json_encode($output);
+	 }
 }

@@ -27,4 +27,6 @@ class User extends CI_Controller {
 		}
 		else { header('location:'.base_url().''); }
  	}
+
+
 }

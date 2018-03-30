@@ -70,6 +70,75 @@ class Masterlogin_model extends CI_Model {
 	}
 
 
+  private $tab;
+  private $da;
+
+
+  public function kabeh($tab,$da)
+  {
+      $this->tab = $tab;
+      $this->da = $da;   
+  }
+
+  public function get_tab() {
+    return $this->tab;
+  }
+
+  public function get_da($no) {
+   $all = $this->da;
+   return $all[$no];
+  }
+
+  public function make_query_user()
+    {
+       $this->db->select('*');
+       $this->db->from($this->get_tab());    
+
+       if(isset($_POST["search"]["value"]))
+       {
+            $this->db->like($this->get_da(1), $_POST["search"]["value"]);
+            $this->db->or_like($this->get_da(2), $_POST["search"]["value"]);
+       }
+
+       if(isset($_POST["order"]))
+       {
+            $this->db->order_by($this->get_da(1), $this->get_da(2)
+              [$_POST['order']['0']['column']], 
+              $_POST['order']['0']['dir']);
+       }
+       else
+       {
+            $this->db->order_by($this->get_da(1), 'ASC');
+       }
+    }
+
+   public function make_datatables_user()
+    {
+         $this->make_query_user();
+         if($_POST["length"] != -1)
+         {
+              $this->db->limit($_POST['length'], $_POST['start']);
+         }
+         $query = $this->db->get();
+         return $query->result();
+    }
+
+   public function get_filtered_data_user()
+    {
+         $this->make_query_user();
+         $query = $this->db->get();
+         return $query->num_rows();
+    }
+
+
+     function get_all_data()
+      {
+           $this->db->select("*");
+           $this->db->from($this->get_tab());
+           return $this->db->count_all_results();
+      }
+
+
 }
 
 /* End of file web_app_model.php */
